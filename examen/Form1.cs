@@ -1,74 +1,65 @@
+using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
-using System;
-using System.Windows.Forms;
+//using System;//
 
-namespace examen
+
+namespace Examen_Michael
+
+
 {
+
+
     public partial class Form1 : Form
     {
-        SqlConnetion conexion = new SqlConnection();
-
+        SqlConnection conexion = new SqlConnection();
         SqlCommand comando = new SqlCommand();
-
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-
+            conexion.ConnectionString = @"Data Source=.;Initial Catalog=examen;Integrated Security=True";
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void btnInsertar_Click_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
             try
 
 
 
             {
 
-                conexion.Open();
+
 
                 comando.Connection = conexion;
 
-                comando.CommandText = "insert into alumno(id,nombre) values(@txtId,@txtnombre)";
+                comando.CommandText = "insert into alumno(id, nombre) values(@txtId,@txtNombre)";
 
-
+                conexion.Open();
 
                 comando.Parameters.Clear();
 
-                comando.Parameters.Value("txtId", txtId.text);
+                comando.Parameters.AddWithValue("txtId", txtId.Text);
 
-                comando.Parameters.Value("txtNombre", txtNombre.Text);
+                comando.Parameters.AddWithValue("txtNombre", txtNombre.Text);
 
 
 
-                int NFilas = comando.ExecuteQuery();
+                int NFilas = comando.ExecuteNonQuery();
 
                 if (NFilas > 0)
 
                 {
 
-
+                    //
 
                     MessageBox.Show("Lo logramos");
 
                 }
-            }
 
+            }
 
 
 
@@ -86,24 +77,17 @@ namespace examen
 
                 conexion.Close();
 
-                txtId.Text = "";
+                txtId.Text = " ";
 
-                txtnombre.Text = "-";
+                txtNombre.Text = " ";
 
-                conexion();
 
-                conexion.Dispose();
+
 
 
 
 
             }
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Conexion();
-
-            conexion.ConnectionString = @"Data Source=.;Initial Catalog=programacion; Integrated Security=True;";
-        }
     }
+}
